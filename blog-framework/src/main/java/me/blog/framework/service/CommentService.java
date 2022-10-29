@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Comment;
+import me.blog.framework.domain.entity.Comment;
 
 /**
  * 评论表(Comment)表服务接口

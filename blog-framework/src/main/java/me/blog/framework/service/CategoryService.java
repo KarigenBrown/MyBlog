@@ -1,7 +1,9 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Category;
+import me.blog.framework.domain.entity.Category;
+
+import java.util.List;
 
 /**
  * 分类表(Category)表服务接口
@@ -11,5 +13,6 @@ import me.blog.framework.entity.Category;
  */
 public interface CategoryService extends IService<Category> {
 
+    List<Category> categoryList();
 }
 

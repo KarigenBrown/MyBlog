@@ -2,7 +2,7 @@ package me.blog.framework.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.blog.framework.mapper.ArticleTagMapper;
-import me.blog.framework.entity.ArticleTag;
+import me.blog.framework.domain.entity.ArticleTag;
 import me.blog.framework.service.ArticleTagService;
 import org.springframework.stereotype.Service;
 

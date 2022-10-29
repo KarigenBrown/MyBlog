@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.ArticleTag;
+import me.blog.framework.domain.entity.ArticleTag;
 
 /**
  * 文章标签关联表(ArticleTag)表服务接口

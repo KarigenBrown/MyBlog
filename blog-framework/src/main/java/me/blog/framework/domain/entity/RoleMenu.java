@@ -1,4 +1,4 @@
-package me.blog.framework.entity;
+package me.blog.framework.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

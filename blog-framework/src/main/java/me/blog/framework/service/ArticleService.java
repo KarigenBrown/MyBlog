@@ -1,7 +1,9 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Article;
+import me.blog.framework.domain.entity.Article;
+
+import java.util.List;
 
 /**
  * 文章表(Article)表服务接口
@@ -11,5 +13,6 @@ import me.blog.framework.entity.Article;
  */
 public interface ArticleService extends IService<Article> {
 
+    List<Article> hotArticleList();
 }
 

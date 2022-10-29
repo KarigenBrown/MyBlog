@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Tag;
+import me.blog.framework.domain.entity.Tag;
 
 /**
  * 标签(Tag)表服务接口

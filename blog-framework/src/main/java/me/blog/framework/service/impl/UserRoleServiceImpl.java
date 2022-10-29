@@ -2,7 +2,7 @@ package me.blog.framework.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.blog.framework.mapper.UserRoleMapper;
-import me.blog.framework.entity.UserRole;
+import me.blog.framework.domain.entity.UserRole;
 import me.blog.framework.service.UserRoleService;
 import org.springframework.stereotype.Service;
 

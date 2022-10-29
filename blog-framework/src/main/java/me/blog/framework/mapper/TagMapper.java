@@ -1,7 +1,7 @@
 package me.blog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.blog.framework.entity.Tag;
+import me.blog.framework.domain.entity.Tag;
 
 /**
  * 标签(Tag)表数据库访问层

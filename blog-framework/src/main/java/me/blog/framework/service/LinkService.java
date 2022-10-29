@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Link;
+import me.blog.framework.domain.entity.Link;
 
 /**
  * 链接(Link)表服务接口

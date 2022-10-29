@@ -1,7 +1,7 @@
 package me.blog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.blog.framework.entity.Menu;
+import me.blog.framework.domain.entity.Menu;
 
 /**
  * 菜单权限表(Menu)表数据库访问层

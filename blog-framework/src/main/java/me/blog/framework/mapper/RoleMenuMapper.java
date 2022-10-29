@@ -1,7 +1,7 @@
 package me.blog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.blog.framework.entity.RoleMenu;
+import me.blog.framework.domain.entity.RoleMenu;
 
 /**
  * 角色和菜单关联表(RoleMenu)表数据库访问层

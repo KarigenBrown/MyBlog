@@ -1,4 +1,4 @@
-package me.blog.framework.entity;
+package me.blog.framework.domain.entity;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * 分类表(Category)表实体类
+ * 评论表(Comment)表实体类
  *
  * @author makejava
  * @since 2022-10-29 18:26:30
@@ -16,17 +16,21 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Comment {
     
     private Long id;
-    //分类名
-    private String name;
-    //父分类id,如果没有父分类为-1
-    private Long pid;
-    //描述
-    private String description;
-    //状态(0正常,1禁用)
-    private String status;
+    //评论类型(0代表文章评论,1代表友链评论)
+    private String type;
+    //文章id
+    private Long articleId;
+    //根评论id
+    private Long rootId;
+    //评论内容
+    private String content;
+    //所回复的目标评论的userid
+    private Long toCommentUserId;
+    //回复目标评论id
+    private Long toCommentId;
     
     private Long createBy;
     

@@ -1,4 +1,4 @@
-package me.blog.framework.entity;
+package me.blog.framework.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,19 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * 文章标签关联表(ArticleTag)表实体类
+ * 用户和角色关联表(UserRole)表实体类
  *
  * @author makejava
- * @since 2022-10-29 18:26:30
+ * @since 2022-10-29 18:26:31
  */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleTag {
-    //文章id
-    private Long articleId;
-    //标签id
-    private Long tagId;
+public class UserRole {
+    //用户ID
+    private Long userId;
+    //角色ID
+    private Long roleId;
 
 }

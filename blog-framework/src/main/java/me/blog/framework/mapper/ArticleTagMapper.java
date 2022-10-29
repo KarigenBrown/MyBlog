@@ -1,7 +1,7 @@
 package me.blog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.blog.framework.entity.ArticleTag;
+import me.blog.framework.domain.entity.ArticleTag;
 
 /**
  * 文章标签关联表(ArticleTag)表数据库访问层

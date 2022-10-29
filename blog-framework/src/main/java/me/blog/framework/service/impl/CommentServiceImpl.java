@@ -2,7 +2,7 @@ package me.blog.framework.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.blog.framework.mapper.CommentMapper;
-import me.blog.framework.entity.Comment;
+import me.blog.framework.domain.entity.Comment;
 import me.blog.framework.service.CommentService;
 import org.springframework.stereotype.Service;
 

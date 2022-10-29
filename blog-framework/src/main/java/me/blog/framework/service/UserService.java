@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.User;
+import me.blog.framework.domain.entity.User;
 
 /**
  * 用户表(User)表服务接口

@@ -1,7 +1,7 @@
 package me.blog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.blog.framework.entity.Comment;
+import me.blog.framework.domain.entity.Comment;
 
 /**
  * 评论表(Comment)表数据库访问层

@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Role;
+import me.blog.framework.domain.entity.Role;
 
 /**
  * 角色信息表(Role)表服务接口

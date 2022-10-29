@@ -1,7 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.blog.framework.entity.Menu;
+import me.blog.framework.domain.entity.Menu;
 
 /**
  * 菜单权限表(Menu)表服务接口
