@@ -11,5 +11,5 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan("me.blog.framework.mapper")
 @ComponentScan("me.blog.framework")
 @Configuration
-public class FrameworkConfig {
+public class FrontendConfig {
 }
