@@ -1,6 +1,7 @@
 package me.blog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.blog.framework.domain.Response;
 import me.blog.framework.domain.entity.Article;
 
 import java.util.List;
@@ -14,5 +15,9 @@ import java.util.List;
 public interface ArticleService extends IService<Article> {
 
     List<Article> hotArticleList();
+
+    List<Article> articleList(Long categoryId, Integer pageNumber, Integer pageSize);
+
+    Article articleDetail(Long id);
 }
 

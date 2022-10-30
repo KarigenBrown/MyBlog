@@ -30,8 +30,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public List<Category> categoryList() {
         // 查询文章表,状态为已发布的文章
-        List<Article> articles = articleMapper.selectList(Wrappers.<Article>lambdaQuery()
-                .eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL)
+        List<Article> articles = articleMapper.selectList(
+                Wrappers.<Article>lambdaQuery()
+                        .eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL)
         );
 
         // 获取文章的分类id,并且去重
@@ -43,9 +44,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> categories = this.listByIds(categoryIds);
 
         return categories.stream()
-                .filter(category ->
-                        SystemConstants.CATEGORY_STATUS_NORMAL
-                                .equals(category.getStatus()))
+                .filter(category -> SystemConstants.CATEGORY_STATUS_NORMAL.equals(category.getStatus()))
                 .toList();
     }
 }

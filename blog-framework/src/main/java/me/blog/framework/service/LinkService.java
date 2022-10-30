@@ -3,6 +3,8 @@ package me.blog.framework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.blog.framework.domain.entity.Link;
 
+import java.util.List;
+
 /**
  * 链接(Link)表服务接口
  *
@@ -11,5 +13,6 @@ import me.blog.framework.domain.entity.Link;
  */
 public interface LinkService extends IService<Link> {
 
+    List<Link> allLink();
 }
 
