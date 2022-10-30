@@ -24,7 +24,7 @@ public class Menu {
     //父菜单ID
     private Long parentId;
     //显示顺序
-    private Integer orderNum;
+    private Integer orderNumber;
     //路由地址
     private String path;
     //组件路径

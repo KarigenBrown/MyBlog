@@ -22,7 +22,7 @@ public class Category {
     //分类名
     private String name;
     //父分类id,如果没有父分类为-1
-    private Long pid;
+    private Long parentId;
     //描述
     private String description;
     //状态(0正常,1禁用)

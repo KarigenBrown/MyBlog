@@ -15,26 +15,26 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseResult<T> implements Serializable {
+public class Response<T> implements Serializable {
     private Integer code;
     private String message;
     private T data;
 
-    public static <T> ResponseResult<T> ok(T data) {
-        return new ResponseResult<T>()
+    public static <T> Response<T> ok(T data) {
+        return new Response<T>()
                 .setCode(HttpCodeEnum.SUCCESS.getCode())
                 .setMessage(HttpCodeEnum.SUCCESS.getMessage())
                 .setData(data);
     }
 
-    public static <T> ResponseResult<T> error(int code, String message) {
-        return new ResponseResult<T>()
+    public static <T> Response<T> error(int code, String message) {
+        return new Response<T>()
                 .setCode(code)
                 .setMessage(message);
     }
 
-    public static ResponseResult<Object> error(HttpCodeEnum httpCodeEnum) {
-        return new ResponseResult<>()
+    public static Response<Object> error(HttpCodeEnum httpCodeEnum) {
+        return new Response<>()
                 .setCode(httpCodeEnum.getCode())
                 .setMessage(httpCodeEnum.getMessage());
     }

@@ -1,6 +1,6 @@
 package me.blog.frontend.controller;
 
-import me.blog.framework.domain.ResponseResult;
+import me.blog.framework.domain.Response;
 import me.blog.framework.domain.entity.Category;
 import me.blog.framework.domain.vo.CategoryVo;
 import me.blog.framework.service.CategoryService;
@@ -26,10 +26,10 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categoryList")
-    public ResponseResult<List<CategoryVo>> categoryList() {
+    public Response<List<CategoryVo>> categoryList() {
         List<Category> categories = categoryService.categoryList();
         List<CategoryVo> data = BeanCopyUtils.copyBeanList(categories, CategoryVo.class);
-        return ResponseResult.ok(data);
+        return Response.ok(data);
     }
 
 }

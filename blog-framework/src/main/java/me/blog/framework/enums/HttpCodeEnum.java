@@ -17,7 +17,7 @@ public enum HttpCodeEnum {
     NO_OPERATOR_AUTH(403, "无权限操作"),
     SYSTEM_ERROR(500, "出现错误"),
     USERNAME_EXIST(501, "用户名已存在"),
-    PHONENUMBER_EXIST(502, "手机号已存在"),
+    PHONE_NUMBER_EXIST(502, "手机号已存在"),
     EMAIL_EXIST(503, "邮箱已存在"),
     REQUIRE_USERNAME(504, "必需填写用户名"),
     CONTENT_NOT_NULL(506, "评论内容不能为空"),
