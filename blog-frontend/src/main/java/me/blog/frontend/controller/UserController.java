@@ -1,5 +1,8 @@
 package me.blog.frontend.controller;
 
+import me.blog.framework.domain.Response;
+import me.blog.framework.domain.entity.User;
+import me.blog.framework.domain.vo.LoginUserVo;
 import me.blog.framework.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +22,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public Response<LoginUserVo> login(@RequestBody User user) {
+        LoginUserVo data = userService.login(user);
+        return Response.ok(data);
+    }
 }
 
