@@ -54,7 +54,7 @@ public class JwtUtils {
         return getJwtBuilder(subject, null, IdUtil.simpleUUID()).compact();
     }
 
-    public static Claims parseJWT(String jwt) {
+    public static Claims parseJWT(String jwt) throws Exception{
         SecretKey secretKey = generalKey();
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)

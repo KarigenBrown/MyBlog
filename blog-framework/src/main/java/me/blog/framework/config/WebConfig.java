@@ -42,8 +42,8 @@ public class WebConfig implements WebMvcConfigurer {
     public HttpMessageConverter<Object> fastJsonHttpMessageConverter() {
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.PrettyFormat);
-        fastJsonConfig.setReaderFeatures(JSONReader.Feature.SupportSmartMatch);
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.PrettyFormat);
+        fastJsonConfig.setReaderFeatures(JSONReader.Feature.FieldBased, JSONReader.Feature.SupportArrayToBean);
 
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
@@ -55,6 +55,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(fastJsonHttpMessageConverter());
+        converters.add(0, fastJsonHttpMessageConverter());
     }
 }

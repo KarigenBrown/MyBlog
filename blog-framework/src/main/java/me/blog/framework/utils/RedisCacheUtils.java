@@ -1,5 +1,6 @@
 package me.blog.framework.utils;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisCacheUtils {
     @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     public <T> void setCacheObject(final String key, final T value) {
         redisTemplate.opsForValue().set(key, value);
@@ -35,8 +36,8 @@ public class RedisCacheUtils {
         return expire(key, timeout, TimeUnit.SECONDS);
     }
 
-    public Object getCacheObject(final String key) {
-        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
+    public <T> T getCacheObject(final String key) {
+        ValueOperations<String, T> operations = redisTemplate.opsForValue();
         return operations.get(key);
     }
 
@@ -53,19 +54,19 @@ public class RedisCacheUtils {
         return count == null ? 0 : count;
     }
 
-    public List<?> getCacheList(final String key) {
+    public <T> List<T> getCacheList(final String key) {
         return redisTemplate.opsForList().range(key, 0, -1);
     }
 
-    public BoundSetOperations<?, ?> setCacheSet(final String key, final Set<?> dataSet) {
-        BoundSetOperations<Object, Object> setOperation = redisTemplate.boundSetOps(key);
-        for (Object o : dataSet) {
+    public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet) {
+        BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(key);
+        for (T o : dataSet) {
             setOperation.add(o);
         }
         return setOperation;
     }
 
-    public Set<?> getCacheSet(final String key) {
+    public <T> Set<T> getCacheSet(final String key) {
         return redisTemplate.opsForSet().members(key);
     }
 
@@ -75,7 +76,7 @@ public class RedisCacheUtils {
         }
     }
 
-    public Map<Object, Object> getCacheMap(final String key) {
+    public <T> Map<String, T> getCacheMap(final String key) {
         return redisTemplate.opsForHash().entries(key);
     }
 
@@ -93,11 +94,11 @@ public class RedisCacheUtils {
         hashOperations.delete(key, hKey);
     }
 
-    public List<Object> getMultiCacheMapValue(final String key, final Collection<Object> hKeys) {
+    public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys) {
         return redisTemplate.opsForHash().multiGet(key, hKeys);
     }
 
-    public Collection<Object> keys(final String pattern) {
+    public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
 }

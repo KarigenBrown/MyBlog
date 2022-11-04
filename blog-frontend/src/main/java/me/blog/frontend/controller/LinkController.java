@@ -25,7 +25,7 @@ public class LinkController {
     @Autowired
     private LinkService linkService;
 
-    @GetMapping("/allLink")
+    @GetMapping("/allLinks")
     public Response<List<LinkVo>> allLink() {
         List<Link> links = linkService.allLink();
 
