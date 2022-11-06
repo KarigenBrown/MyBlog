@@ -13,5 +13,7 @@ import me.blog.framework.domain.vo.LoginUserVo;
 public interface UserService extends IService<User> {
 
     LoginUserVo login(User user);
+
+    void logout();
 }
 

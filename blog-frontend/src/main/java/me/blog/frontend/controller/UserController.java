@@ -34,5 +34,11 @@ public class UserController {
         LoginUserVo data = userService.login(user);
         return Response.ok(data);
     }
+
+    @PostMapping("/logout")
+    public Response<Object> logout() {
+        userService.logout();
+        return Response.ok(null);
+    }
 }
 

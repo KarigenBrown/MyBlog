@@ -16,6 +16,10 @@ import java.nio.charset.StandardCharsets;
  * @create 2022-11-02 20:06
  */
 public class WebUtils {
+
+    private WebUtils() {
+    }
+
     public static void renderString(HttpServletResponse response, String string) {
         response.setStatus(200);
         response.setContentType(ContentType.JSON.toString());

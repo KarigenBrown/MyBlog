@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -60,6 +61,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 把token和userInfo封装返回
         return new LoginUserVo(jwt, userDetailsVo);
+    }
+
+    @Override
+    public void logout() {
+        // 获取token,解析获取userid
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loginUser = (User) authentication.getPrincipal();
+        // 获取userid
+        Long userId = loginUser.getId();
+        // 删除redis中的用户信息
+        redisCacheUtils.deleteCacheObject("blogLogin:" + userId);
     }
 
     @Override

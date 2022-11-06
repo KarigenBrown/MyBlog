@@ -21,6 +21,9 @@ public class JwtUtils {
     public static final Long JWT_TTL = 24 * 60 * 60 * 1_000L;
     public static final String JWT_KEY = "eyJhbGciOiJIUzI1NiJ9eyJqdGkiOiJjYWM2ZDVhZi1mNjVlLTQ0MDAtYjcxMi0zYWEwOGIyOTIwYjQiLCJzdWIiOiJzZyIsImlzcyI6InNnIiwiaWF0IjoxNjM4MTA2NzEyLCJleHAiOjE2MzgxMTAzMTJ9JVsSbkP94wuczb4QryQbAke3ysBDIL5ou8fWsbtebg";
 
+    private JwtUtils() {
+    }
+
     public static SecretKey generalKey() {
         byte[] encodedKey = Base64.getDecoder().decode(JwtUtils.JWT_KEY);
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");

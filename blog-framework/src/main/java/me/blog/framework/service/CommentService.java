@@ -3,6 +3,8 @@ package me.blog.framework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.blog.framework.domain.entity.Comment;
 
+import java.util.List;
+
 /**
  * 评论表(Comment)表服务接口
  *
@@ -11,5 +13,10 @@ import me.blog.framework.domain.entity.Comment;
  */
 public interface CommentService extends IService<Comment> {
 
+    List<Comment> commentList(String commentType, Long articleId, Integer pageNumber, Integer pageSize);
+
+    List<Comment> children(Long rootId);
+
+    void addComment(Comment comment);
 }
 
