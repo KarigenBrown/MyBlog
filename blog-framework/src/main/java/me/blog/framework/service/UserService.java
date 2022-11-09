@@ -3,6 +3,7 @@ package me.blog.framework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.blog.framework.domain.entity.User;
 import me.blog.framework.domain.vo.LoginUserVo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户表(User)表服务接口
@@ -15,5 +16,9 @@ public interface UserService extends IService<User> {
     LoginUserVo login(User user);
 
     void logout();
+
+    User userDetails();
+
+    String userPhoto(MultipartFile userPhoto);
 }
 
