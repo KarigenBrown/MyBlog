@@ -21,7 +21,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +53,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private MinioConfig minioConfig;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public LoginUserVo login(User user) {
@@ -88,11 +93,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User userDetails() {
+    public User getUserDetails() {
         // 获取当前用户id
         Long userId = SecurityUtils.getUserId();
         // 根据用户id查询用户信息
         return this.getById(userId);
+    }
+
+    @Override
+    public void putUserDetails(User user) {
+        this.updateById(user);
     }
 
     @Override
@@ -135,6 +145,50 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 fileName,
                 7 * 24 * 60 * 60
         );
+    }
+
+    @Override
+    public void register(User user) {
+        // 对数据进行非空判断
+        if (!StringUtils.hasText(user.getUserName())) {
+            throw new SystemException(HttpCodeEnum.USERNAME_NOT_NULL);
+        }
+        if (!StringUtils.hasText(user.getPassword())) {
+            throw new SystemException(HttpCodeEnum.PASSWORD_NOT_NULL);
+        }
+        if (!StringUtils.hasText(user.getEmail())) {
+            throw new SystemException(HttpCodeEnum.EMAIL_NOT_NULL);
+        }
+        if (!StringUtils.hasText(user.getNickName())) {
+            throw new SystemException(HttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+        // 对数据进行是否存在的判断
+        if (userNameExist(user.getUserName())) {
+            throw new SystemException(HttpCodeEnum.USERNAME_EXIST);
+        }
+        if (nickNameExist(user.getNickName())) {
+            throw new SystemException(HttpCodeEnum.NICKNAME_EXIST);
+        }
+        // ...
+        // 对密码进行加密
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        // 存入数据库
+        this.save(user);
+    }
+
+    private boolean nickNameExist(String nickName) {
+        return this.count(
+                Wrappers.<User>lambdaQuery()
+                        .eq(User::getNickName, nickName)
+        ) > 0;
+    }
+
+    private boolean userNameExist(String userName) {
+        return this.count(
+                Wrappers.<User>lambdaQuery()
+                        .eq(User::getUserName, userName)
+        ) > 0;
     }
 
     @Override

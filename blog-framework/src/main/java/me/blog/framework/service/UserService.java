@@ -17,8 +17,12 @@ public interface UserService extends IService<User> {
 
     void logout();
 
-    User userDetails();
+    User getUserDetails();
+
+    void putUserDetails(User user);
 
     String userPhoto(MultipartFile userPhoto);
+
+    void register(User user);
 }
 

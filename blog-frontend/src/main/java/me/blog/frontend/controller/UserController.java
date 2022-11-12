@@ -47,8 +47,8 @@ public class UserController {
     }
 
     @GetMapping("/userDetails")
-    public Response<UserDetailsVo> userDetails() {
-        User user = userService.userDetails();
+    public Response<UserDetailsVo> getUserDetails() {
+        User user = userService.getUserDetails();
         // 封装成UserDetailsVo
         UserDetailsVo data = BeanCopyUtils.copyBean(user, UserDetailsVo.class);
         return Response.ok(data);
@@ -58,6 +58,18 @@ public class UserController {
     public Response<String> userPhoto(@RequestPart("userPhoto") MultipartFile userPhoto) {
         String data = userService.userPhoto(userPhoto);
         return Response.ok(data);
+    }
+
+    @PutMapping("/userDetails")
+    public Response<Object> putUserDetails(@RequestBody User user) {
+        userService.putUserDetails(user);
+        return Response.ok(null);
+    }
+
+    @PostMapping("/register")
+    public Response<Object> register(@RequestBody User user) {
+        userService.register(user);
+        return Response.ok(null);
     }
 }
 

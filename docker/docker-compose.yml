@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    volumes:
+      - mysql-config:/etc/mysql/conf.d
+      - minio-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+  redis:
+    # docker run -d -v redis-config:/usr/local/etc/redis -v redis-data:/data -p 6379:6379 --name redis redis
+    image: redis
+    container_name: redis
+    volumes:
+      - redis-config:/usr/local/etc/redis
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+  minio:
+    # docker run -p 9000:9000 -p 9001:9001 --name minio -v minio-data:/data -v minio-config:/root/.minio minio/minio server /data --console-address ":9001"
+    image: minio/minio
+    container_name: minio
+    volumes:
+      - minio-config:/root/.minio
+      - minio-data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+  myblog:
+    # image:
+    container_name: myblog
+    depends_on:
+      - mysql
+      - redis
+      - minio
+    # volumes:
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql-config:
+  mysql-data:
+  redis-config:
+  redis-data:
+  minio-config:
+  minio-data:
