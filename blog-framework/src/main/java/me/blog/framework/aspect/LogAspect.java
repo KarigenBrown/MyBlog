@@ -65,7 +65,7 @@ public class LogAspect {
         // 打印HTTP Method
         log.info("HTTP Method             : {}", request.getMethod());
         // 打印调用controller的全路径以及执行方法
-        log.info("Class Method            : {}.{}",
+        log.info("Class Method            : {}#{}()",
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName());
         // 打印请求的IP
