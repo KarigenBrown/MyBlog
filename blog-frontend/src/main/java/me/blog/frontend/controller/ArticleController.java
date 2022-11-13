@@ -1,5 +1,6 @@
 package me.blog.frontend.controller;
 
+import me.blog.framework.annotation.SystemLog;
 import me.blog.framework.domain.Response;
 import me.blog.framework.domain.entity.Article;
 import me.blog.framework.domain.vo.ArticleDetailVo;
@@ -32,6 +33,7 @@ public class ArticleController {
     @Autowired
     private CategoryService categoryService;
 
+    @SystemLog(businessName = "获取热点文章")
     @GetMapping("/hotArticleList")
     public Response<List<HotArticleVo>> hotArticleList() {
         // 查询热门文章,封装成ResponseResult<List<HotArticleVo>>返回

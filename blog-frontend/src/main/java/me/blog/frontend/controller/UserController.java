@@ -1,5 +1,6 @@
 package me.blog.frontend.controller;
 
+import me.blog.framework.annotation.SystemLog;
 import me.blog.framework.config.MinioConfig;
 import me.blog.framework.domain.Response;
 import me.blog.framework.domain.entity.User;
@@ -60,6 +61,7 @@ public class UserController {
         return Response.ok(data);
     }
 
+    @SystemLog(businessName = "更新用户信息")
     @PutMapping("/userDetails")
     public Response<Object> putUserDetails(@RequestBody User user) {
         userService.putUserDetails(user);

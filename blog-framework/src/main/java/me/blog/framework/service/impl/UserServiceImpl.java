@@ -115,15 +115,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new SystemException(HttpCodeEnum.FILE_TYPE_ERROR);
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         // 1.
         /*String[] split = Objects.requireNonNull(originalFilename).split("\\.");
         String extendName = split[split.length - 1];
         String fileName = dateFormat.format(new Date()) + "/" + IdUtil.fastSimpleUUID() + "." + extendName;*/
 
         // 2.
-        int index = originalFilename.lastIndexOf(".");
-        String fileName = dateFormat.format(new Date()) + "/" + IdUtil.fastSimpleUUID() + originalFilename.substring(index);
+        /*int index = originalFilename.lastIndexOf(".");
+        String fileName = dateFormat.format(new Date()) + "/" + IdUtil.fastSimpleUUID() + originalFilename.substring(index);*/
 
         // 3.
         /*StringBuilder stringBuilder = new StringBuilder();
@@ -134,16 +134,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .append(originalFilename.lastIndexOf(index))
                 .toString();*/
 
+        // 4.
+        String fileName = PathUtils.dateUuidPath(originalFilename);
+
         // 如果判断通过上传文件到OSS
-        minioUtils.upload(
+        return minioUtils.upload(
                 minioConfig.getBucketName(),
                 fileName,
                 userPhoto
-        );
-        return minioUtils.getUploadObjectUrl(
-                minioConfig.getBucketName(),
-                fileName,
-                7 * 24 * 60 * 60
         );
     }
 
