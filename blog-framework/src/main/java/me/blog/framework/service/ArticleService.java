@@ -19,5 +19,7 @@ public interface ArticleService extends IService<Article> {
     List<Article> articleList(Long categoryId, Integer pageNumber, Integer pageSize);
 
     Article articleDetail(Long id);
+
+    void putViewCount(Long id);
 }
 

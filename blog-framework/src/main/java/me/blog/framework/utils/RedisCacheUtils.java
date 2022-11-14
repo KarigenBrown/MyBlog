@@ -101,4 +101,8 @@ public class RedisCacheUtils {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+    public void incrementCacheMapValue(String key, String hKey, int step) {
+        redisTemplate.opsForHash().increment(key, hKey, step);
+    }
 }

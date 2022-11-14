@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.blog.framework.config.MinioConfig;
+import me.blog.framework.constants.SystemConstants;
 import me.blog.framework.domain.vo.LoginUserVo;
 import me.blog.framework.domain.vo.UserDetailsVo;
 import me.blog.framework.enums.HttpCodeEnum;
@@ -57,6 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @Override
     public LoginUserVo login(User user) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
@@ -72,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String jwt = JwtUtils.createJWT(userId);
 
         // 把用户信息存入redis
-        redisCacheUtils.setCacheObject("blogLogin:" + userId, loginUser);
+        redisCacheUtils.setCacheObject(SystemConstants.USER_STATUS_KEY_PREFIX + userId, loginUser);
 
         // 把User转化成UserInfoVo
         UserDetailsVo userDetailsVo = BeanCopyUtils.copyBean(loginUser, UserDetailsVo.class);
@@ -89,7 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取userid
         Long userId = loginUser.getId();
         // 删除redis中的用户信息
-        redisCacheUtils.deleteCacheObject("blogLogin:" + userId);
+        redisCacheUtils.deleteCacheObject(SystemConstants.USER_STATUS_KEY_PREFIX + userId);
     }
 
     @Override

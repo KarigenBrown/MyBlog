@@ -10,9 +10,12 @@ import me.blog.framework.mapper.ArticleMapper;
 import me.blog.framework.domain.entity.Article;
 import me.blog.framework.mapper.CategoryMapper;
 import me.blog.framework.service.ArticleService;
+import me.blog.framework.utils.RedisCacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,11 +31,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    private RedisCacheUtils redisCacheUtils;
+
     @Override
     public List<Article> hotArticleList() {
         // 查询热门文章,封装成List<Article>返回
         // 最多只插叙10条
-        return this.page(
+        List<Article> articles = this.page(
                 new Page<>(1, 10),
                 Wrappers.<Article>lambdaQuery()
                         // 必须是正式文章
@@ -40,6 +46,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         // 按照浏览量进行降序排序
                         .orderByDesc(Article::getViewCount)
         ).getRecords();
+
+        return articles.stream()
+                .peek(article -> {
+                    // 从redis中获取viewCount
+                    Long viewCount = redisCacheUtils.getCacheMapValue(SystemConstants.VIEW_COUNT_KEY, article.getId().toString());
+                    article.setViewCount(viewCount);
+                }).sorted((article1, article2) -> (int) (article1.getViewCount() - article2.getViewCount()))
+                .toList();
 
         // bean拷贝,实际用的时候采用在数据库select
         /*ArrayList<HotArticleVo> hotArticleVos = new ArrayList<>();
@@ -80,6 +94,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     Category category = categoryMapper.selectById(article.getCategoryId());
                     // 把分类名称设置给article
                     article.setCategoryName(category.getName());
+                    // 从redis中获取viewCount
+                    Long viewCount = redisCacheUtils.getCacheMapValue(SystemConstants.VIEW_COUNT_KEY, article.getId().toString());
+                    article.setViewCount(viewCount);
                 }).toList();
     }
 
@@ -87,12 +104,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Article articleDetail(Long id) {
         // 根据id查询文章
         Article article = this.getById(id);
+        // 从redis中获取viewCount
+        Long viewCount = redisCacheUtils.getCacheMapValue(SystemConstants.VIEW_COUNT_KEY, id.toString());
+        article.setViewCount(viewCount);
         // 根据分类id查询分类名
         Category category = categoryMapper.selectById(article.getCategoryId());
         if (category != null) {
             article.setCategoryName(category.getName());
         }
         return article;
+    }
+
+    @Override
+    public void putViewCount(Long id) {
+        // 更新redis中对应id的浏览量
+        redisCacheUtils.incrementCacheMapValue(SystemConstants.VIEW_COUNT_KEY, id.toString(), 1);
     }
 }
 

@@ -33,7 +33,7 @@ public class ArticleController {
     @Autowired
     private CategoryService categoryService;
 
-    @SystemLog(businessName = "获取热点文章")
+    @SystemLog(businessName = "获取热点文章")// 000000
     @GetMapping("/hotArticleList")
     public Response<List<HotArticleVo>> hotArticleList() {
         // 查询热门文章,封装成ResponseResult<List<HotArticleVo>>返回
@@ -54,11 +54,17 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public Response<ArticleDetailVo> articleDetail(@PathVariable("id")Long id){
+    public Response<ArticleDetailVo> articleDetail(@PathVariable("id") Long id) {
         Article articleDetail = articleService.articleDetail(id);
         // 转换成vo
         ArticleDetailVo data = BeanCopyUtils.copyBean(articleDetail, ArticleDetailVo.class);
         return Response.ok(data);
+    }
+
+    @PutMapping("/viewCount/{id}")
+    public Response<Object> putViewCount(@PathVariable("id") Long id) {
+        articleService.putViewCount(id);
+        return Response.ok(null);
     }
 
 }
