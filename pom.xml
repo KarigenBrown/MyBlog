@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.blog</groupId>
+    <groupId>me.myblog</groupId>
     <artifactId>MyBlog</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>blog-framework</module>
-        <module>blog-backend</module>
-        <module>blog-frontend</module>
+        <module>myblog-framework</module>
+        <module>myblog-backend</module>
+        <module>myblog-frontend</module>
     </modules>
 
     <properties>
@@ -58,11 +58,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>3.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>3.15.2</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
