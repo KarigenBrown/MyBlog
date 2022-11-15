@@ -1,6 +1,7 @@
 package me.myblog;
 
 import me.myblog.backend.MyBlogBackendApplication;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -9,4 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest(classes = MyBlogBackendApplication.class)
 public class PushTest {
+    @Test
+    public void testPush(){
+        System.out.println();
+    }
 }
