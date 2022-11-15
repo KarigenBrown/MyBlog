@@ -5,6 +5,8 @@ import me.myblog.framework.domain.entity.User;
 import me.myblog.framework.domain.vo.LoginUserVo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * 用户表(User)表服务接口
  *
@@ -13,7 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface UserService extends IService<User> {
 
-    LoginUserVo login(User user);
+    // 多个token,没办法
+    Map<String,Object> userLogin(User user);
 
     void logout();
 
@@ -24,5 +27,7 @@ public interface UserService extends IService<User> {
     String userPhoto(MultipartFile userPhoto);
 
     void register(User user);
+
+    String administratorLogin(User user);
 }
 

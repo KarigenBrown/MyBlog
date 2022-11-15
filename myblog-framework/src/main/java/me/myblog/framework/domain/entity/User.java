@@ -22,8 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @since 2022-10-29 18:26:31
  */
 @Data
-@Accessors(chain = true)
 @TableName("user")
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)

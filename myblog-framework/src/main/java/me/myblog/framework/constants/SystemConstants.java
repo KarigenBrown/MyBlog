@@ -26,7 +26,9 @@ public class SystemConstants {
     public static final String ARTICLE_COMMENT = "0";
     public static final String LINK_COMMENT = "1";
 
-    public static final String USER_STATUS_KEY_PREFIX = "loginUser:";
+    public static final String USER_LOGIN_KEY_PREFIX = "loginUser:";
+
+    public static final String ADMINISTRATOR_LOGIN_KEY_PREFIX = "loginAdministrator:";
 
     public static final String VIEW_COUNT_KEY = "article:viewCount";
 }

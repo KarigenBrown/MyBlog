@@ -1,4 +1,4 @@
-package me.myblog.frontend.filter;
+package me.myblog.backend.filter;
 
 import com.alibaba.fastjson2.JSON;
 import io.jsonwebtoken.Claims;
@@ -59,7 +59,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         String userid = claims.getSubject();
         // 从redis中获取用户信息
-        User loginUser = redisCacheUtils.getCacheObject(SystemConstants.USER_LOGIN_KEY_PREFIX + userid);
+        User loginUser = redisCacheUtils.getCacheObject(SystemConstants.ADMINISTRATOR_LOGIN_KEY_PREFIX + userid);
         // 如果获取不到
         if (Objects.isNull(loginUser)) {
             Response<Object> result = Response.error(HttpCodeEnum.NEED_LOGIN);

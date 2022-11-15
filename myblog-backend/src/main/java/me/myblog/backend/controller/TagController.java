@@ -1,8 +1,12 @@
 package me.myblog.backend.controller;
 
+import me.myblog.framework.domain.Response;
+import me.myblog.framework.domain.entity.Tag;
 import me.myblog.framework.service.TagService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * 标签(Tag)表控制层
@@ -18,6 +22,12 @@ public class TagController {
      */
     @Autowired
     private TagService tagService;
+
+    @GetMapping("/list")
+    public Response<List<Tag>> list() {
+        List<Tag> data = tagService.list();
+        return Response.ok(data);
+    }
 
 }
 

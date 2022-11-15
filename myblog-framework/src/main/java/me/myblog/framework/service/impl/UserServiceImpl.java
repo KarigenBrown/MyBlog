@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -55,7 +56,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public LoginUserVo login(User user) {
+    public Map<String, Object> userLogin(User user) {
+        /*UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+        // 判断是否认证通过
+        Optional.ofNullable(authentication)
+                .orElseThrow(() -> new RuntimeException("用户名或密码错误"));
+
+        // 获取userid生成token
+        User loginUser = (User) authentication.getPrincipal();*/
+        User loginUser = getAuthenticatedUser(user);
+        String userId = loginUser.getId().toString();
+        String jwt = JwtUtils.createJWT(userId);
+
+        // 把用户信息存入redis
+        redisCacheUtils.setCacheObject(SystemConstants.USER_LOGIN_KEY_PREFIX + userId, loginUser);
+
+        return Map.of(
+                "jwt", jwt,
+                "loginUser", loginUser
+        );
+    }
+
+    private User getAuthenticatedUser(User user) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -64,18 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .orElseThrow(() -> new RuntimeException("用户名或密码错误"));
 
         // 获取userid生成token
-        User loginUser = (User) authentication.getPrincipal();
-        String userId = loginUser.getId().toString();
-        String jwt = JwtUtils.createJWT(userId);
-
-        // 把用户信息存入redis
-        redisCacheUtils.setCacheObject(SystemConstants.USER_STATUS_KEY_PREFIX + userId, loginUser);
-
-        // 把User转化成UserInfoVo
-        UserDetailsVo userDetailsVo = BeanCopyUtils.copyBean(loginUser, UserDetailsVo.class);
-
-        // 把token和userInfo封装返回
-        return new LoginUserVo(jwt, userDetailsVo);
+        return (User) authentication.getPrincipal();
     }
 
     @Override
@@ -86,7 +99,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取userid
         Long userId = loginUser.getId();
         // 删除redis中的用户信息
-        redisCacheUtils.deleteCacheObject(SystemConstants.USER_STATUS_KEY_PREFIX + userId);
+        redisCacheUtils.deleteCacheObject(SystemConstants.USER_LOGIN_KEY_PREFIX + userId);
     }
 
     @Override
@@ -170,6 +183,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(encodedPassword);
         // 存入数据库
         this.save(user);
+    }
+
+    @Override
+    public String administratorLogin(User user) {
+        /*UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+        // 判断是否认证通过
+        Optional.ofNullable(authentication)
+                .orElseThrow(() -> new RuntimeException("用户名或密码错误"));
+
+        // 获取userid生成token
+        User loginUser = (User) authentication.getPrincipal();*/
+        User loginUser = getAuthenticatedUser(user);
+        String userId = loginUser.getId().toString();
+        String jwt = JwtUtils.createJWT(userId);
+
+        // 把用户信息存入redis
+        redisCacheUtils.setCacheObject(SystemConstants.ADMINISTRATOR_LOGIN_KEY_PREFIX + userId, loginUser);
+
+        return jwt;
     }
 
     private boolean nickNameExist(String nickName) {

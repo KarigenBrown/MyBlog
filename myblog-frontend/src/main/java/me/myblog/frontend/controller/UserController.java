@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * 用户表(User)表控制层
  *
@@ -35,7 +37,15 @@ public class UserController {
             // 提示,必须要传用户名
             throw new SystemException(HttpCodeEnum.REQUIRE_USERNAME);
         }
-        LoginUserVo data = userService.login(user);
+        Map<String, Object> map = userService.userLogin(user);
+        Object loginUser = map.get("loginUser");
+        String jwt = (String) map.get("jwt");
+
+        // 把User转化成UserInfoVo
+        UserDetailsVo userDetailsVo = BeanCopyUtils.copyBean(loginUser, UserDetailsVo.class);
+
+        // 把token和userInfo封装返回
+        LoginUserVo data = new LoginUserVo(jwt, userDetailsVo);
         return Response.ok(data);
     }
 
