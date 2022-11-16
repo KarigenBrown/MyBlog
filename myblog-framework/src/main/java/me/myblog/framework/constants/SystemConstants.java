@@ -16,6 +16,8 @@ public class SystemConstants {
 
     public static final String CATEGORY_STATUS_NORMAL = "0";
 
+    public static final String MENU_STATUS_NORMAL = "0";
+
     /**
      * 链接审核通过
      */
@@ -31,4 +33,8 @@ public class SystemConstants {
     public static final String ADMINISTRATOR_LOGIN_KEY_PREFIX = "loginAdministrator:";
 
     public static final String VIEW_COUNT_KEY = "article:viewCount";
+
+    public static final String MENU = "C";
+
+    public static final String BUTTON = "F";
 }

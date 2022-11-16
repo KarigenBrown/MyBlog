@@ -38,7 +38,7 @@ public class Menu {
     //菜单状态(0正常,1停用)
     private String status;
     //权限标识
-    private String perms;
+    private String permission;
     //菜单图标
     private String icon;
     //创建者

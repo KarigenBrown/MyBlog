@@ -3,6 +3,8 @@ package me.myblog.framework.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.myblog.framework.domain.entity.Role;
 
+import java.util.List;
+
 /**
  * 角色信息表(Role)表数据库访问层
  *
@@ -11,5 +13,6 @@ import me.myblog.framework.domain.entity.Role;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
+    List<String> selectRoleKeyByUserId(Long userId);
 }
 

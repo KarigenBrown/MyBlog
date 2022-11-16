@@ -33,7 +33,7 @@ CREATE TABLE `menu`
     `menu_type`    char(1)      DEFAULT '' COMMENT '菜单类型(M目录,C菜单,F按钮)',
     `visible`      char(1)      DEFAULT '0' COMMENT '菜单状态(0显示,1隐藏)',
     `status`       char(1)      DEFAULT '0' COMMENT '菜单状态(0正常,1停用)',
-    `perms`        varchar(100) DEFAULT NULL COMMENT '权限标识',
+    `permission`  varchar(100) DEFAULT NULL COMMENT '权限标识',
     `icon`         varchar(100) DEFAULT '#' COMMENT '菜单图标',
     `create_by`    bigint(20)   DEFAULT NULL COMMENT '创建者',
     `create_time`  datetime     DEFAULT NULL COMMENT '创建时间',
@@ -49,7 +49,7 @@ CREATE TABLE `menu`
 /*Data for the table `menu` */
 
 insert into `menu`(`id`, `menu_name`, `parent_id`, `order_number`, `path`, `component`, `is_frame`, `menu_type`,
-                   `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`,
+                   `visible`, `status`, `permission`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`,
                    `remark`, `delete_flag`)
 values (1, '系统管理', 0, 1, 'system', NULL, 1, 'M', '0', '0', '', 'system', 0, '2021-11-12 10:46:19', 0, NULL,
         '系统管理目录', '0'),

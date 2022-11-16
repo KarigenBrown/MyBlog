@@ -3,6 +3,8 @@ package me.myblog.framework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.myblog.framework.domain.entity.Role;
 
+import java.util.List;
+
 /**
  * 角色信息表(Role)表服务接口
  *
@@ -11,5 +13,6 @@ import me.myblog.framework.domain.entity.Role;
  */
 public interface RoleService extends IService<Role> {
 
+    List<String> selectRoleKeyByUserId(Long id);
 }
 

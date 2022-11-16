@@ -3,6 +3,8 @@ package me.myblog.framework.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.myblog.framework.domain.entity.Menu;
 
+import java.util.List;
+
 /**
  * 菜单权限表(Menu)表数据库访问层
  *
@@ -11,5 +13,6 @@ import me.myblog.framework.domain.entity.Menu;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    List<String> selectPermissionsByUserId(Long userId);
 }
 
