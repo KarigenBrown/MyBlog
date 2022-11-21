@@ -11,4 +11,49 @@
           and menu.menu_type in ('C', 'F')
           and user_role.user_id = #{userId}
     </select>
+
+    <select resultType="me.myblog.framework.domain.entity.Menu" id="selectAllRouterMenu">
+        select distinct menu.id,
+                        menu.parent_id,
+                        menu.menu_name,
+                        menu.path,
+                        menu.component,
+                        menu.visible,
+                        menu.status,
+                        ifnull(menu.permission, '') as permission,
+                        menu.is_frame,
+                        menu.menu_type,
+                        menu.icon,
+                        menu.order_number,
+                        menu.create_time
+        from menu
+        where menu.delete_flag = 0
+          and menu.status = 0
+          and menu.menu_type in ('C', 'M')
+        order by menu.parent_id, menu.order_number
+    </select>
+
+    <select resultType="me.myblog.framework.domain.entity.Menu" id="selectRouterMenuTreeByUserId">
+        select distinct menu.id,
+                        menu.parent_id,
+                        menu.menu_name,
+                        menu.path,
+                        menu.component,
+                        menu.visible,
+                        menu.status,
+                        ifnull(menu.permission, '') as permission,
+                        menu.is_frame,
+                        menu.menu_type,
+                        menu.icon,
+                        menu.order_number,
+                        menu.create_time
+        from user_role
+                 left join role_menu using (role_id)
+                 left join menu on role_menu.menu_id = menu.id
+        where menu.delete_flag = 0
+          and menu.status = 0
+          and menu.menu_type in ('C', 'M')
+          and user_role.user_id = #{userId}
+        order by menu.parent_id, menu.order_number
+    </select>
 </mapper>

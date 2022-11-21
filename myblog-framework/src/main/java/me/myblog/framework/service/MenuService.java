@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface MenuService extends IService<Menu> {
 
-    List<String> selectPermissionsByUserId(Long id);
+    List<String> selectPermissionsByUserId(Long userId);
+
+    List<Menu> selectRouterMenuTreeByUserId(Long userId);
 }
 

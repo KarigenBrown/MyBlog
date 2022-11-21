@@ -1,6 +1,9 @@
 package me.myblog.framework.domain.entity;
 
 import java.util.Date;
+import java.util.List;
+
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +16,13 @@ import lombok.experimental.Accessors;
  * @since 2022-10-29 18:26:30
  */
 @Data
+@TableName("menu")
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Menu {
     //菜单ID
+    @TableId(type = IdType.AUTO)
     private Long id;
     //菜单名称
     private String menuName;
@@ -51,7 +56,9 @@ public class Menu {
     private Date updateTime;
     //备注
     private String remark;
-    
+    @TableLogic
     private String deleteFlag;
+    @TableField(exist = false)
+    private List<Menu> children;
 
 }

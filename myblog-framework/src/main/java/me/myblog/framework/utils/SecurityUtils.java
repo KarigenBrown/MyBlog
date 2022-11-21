@@ -1,5 +1,6 @@
 package me.myblog.framework.utils;
 
+import me.myblog.framework.constants.SystemConstants;
 import me.myblog.framework.domain.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,6 @@ public class SecurityUtils {
 
     public static Boolean isAdministrator() {
         Long userId = getUserId();
-        return userId != null && 1L != userId;
+        return userId != null && !SystemConstants.ADMINISTRATOR.equals(userId);
     }
 }

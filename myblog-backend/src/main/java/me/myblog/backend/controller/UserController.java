@@ -33,12 +33,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MenuService menuService;
-
-    @Autowired
-    private RoleService roleService;
-
     @PostMapping("/login")
     public Response<Map<String, String>> login(@RequestBody User user) {
         if (!StringUtils.hasText(user.getUserName())) {
@@ -47,24 +41,6 @@ public class UserController {
         }
         String token = userService.administratorLogin(user);
         return Response.ok(Map.of("token", token));
-    }
-
-    @GetMapping("/userRights")
-    public Response<UserRightsVo> getUserRights() {
-        // 获取当前登陆的用户
-        User loginUser = SecurityUtils.getLoginUser();
-        // 根据用户id查询权限信息
-        List<String> permissions = menuService.selectPermissionsByUserId(loginUser.getId());
-        // 根据用户id查询角色信息
-        List<String> roleKeys = roleService.selectRoleKeyByUserId(loginUser.getId());
-        // 获取用户信息
-        UserDetailsVo userDetails = BeanCopyUtils.copyBean(loginUser, UserDetailsVo.class);
-        // 封装数据返回
-        UserRightsVo data = new UserRightsVo()
-                .setPermissions(permissions)
-                .setRoles(roleKeys)
-                .setUser(userDetails);
-        return Response.ok(data);
     }
 
 }
