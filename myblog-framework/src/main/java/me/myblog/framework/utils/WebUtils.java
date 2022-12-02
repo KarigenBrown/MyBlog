@@ -2,9 +2,9 @@ package me.myblog.framework.utils;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.ContentType;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

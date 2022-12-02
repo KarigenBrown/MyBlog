@@ -1,5 +1,6 @@
 package me.myblog.backend.controller;
 
+import me.myblog.framework.constants.SystemConstants;
 import me.myblog.framework.domain.Response;
 import me.myblog.framework.domain.entity.User;
 import me.myblog.framework.domain.vo.UserDetailsVo;
@@ -10,6 +11,7 @@ import me.myblog.framework.service.MenuService;
 import me.myblog.framework.service.RoleService;
 import me.myblog.framework.service.UserService;
 import me.myblog.framework.utils.BeanCopyUtils;
+import me.myblog.framework.utils.RedisCacheUtils;
 import me.myblog.framework.utils.SecurityUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisCacheUtils redisCacheUtils;
+
     @PostMapping("/login")
     public Response<Map<String, String>> login(@RequestBody User user) {
         if (!StringUtils.hasText(user.getUserName())) {
@@ -41,6 +46,12 @@ public class UserController {
         }
         String token = userService.administratorLogin(user);
         return Response.ok(Map.of("token", token));
+    }
+
+    @PostMapping("/user/logout")
+    public Response<Object> logout() {
+        userService.administratorLogout();
+        return Response.ok(null);
     }
 
 }

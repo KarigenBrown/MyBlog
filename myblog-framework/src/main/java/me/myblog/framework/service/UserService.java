@@ -29,5 +29,7 @@ public interface UserService extends IService<User> {
     void register(User user);
 
     String administratorLogin(User user);
+
+    void administratorLogout();
 }
 

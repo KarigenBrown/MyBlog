@@ -52,9 +52,11 @@ public class SecurityConfig {
                 // 不通过session获取SecurityContext
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
+                //.authorizeRequests()
+                .authorizeHttpRequests()
                 // 对于登陆接口允许匿名访问
-                .antMatchers("/user/login").anonymous()
+                //.antMatchers("/user/login").anonymous()
+                .requestMatchers("/user/login").anonymous()
                 /*.antMatchers("/user/logout").authenticated()
                 .antMatchers("/user/userDetails").authenticated()
                 .antMatchers("/user/userPhoto").authenticated()*/

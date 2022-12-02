@@ -22,6 +22,7 @@ services:
       - "6379:6379"
   minio:
     # docker run -p 9000:9000 -p 9001:9001 --name minio -v minio-data:/data -v minio-config:/root/.minio minio/minio server /data --console-address ":9001"
+    # MINIO_SERVER_URL指定公网链接
     image: minio/minio
     container_name: minio
     volumes:

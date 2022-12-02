@@ -206,6 +206,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return jwt;
     }
 
+    @Override
+    public void administratorLogout() {
+        // 获取当前登录的用户id
+        Long userId = SecurityUtils.getUserId();
+        // 删除redis中对应的值
+        redisCacheUtils.deleteCacheObject(SystemConstants.ADMINISTRATOR_LOGIN_KEY_PREFIX + userId);
+    }
+
     private boolean nickNameExist(String nickName) {
         return this.count(
                 Wrappers.<User>lambdaQuery()

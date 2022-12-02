@@ -3,6 +3,8 @@ package me.myblog.framework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.myblog.framework.domain.entity.Tag;
 
+import java.util.List;
+
 /**
  * 标签(Tag)表服务接口
  *
@@ -11,5 +13,6 @@ import me.myblog.framework.domain.entity.Tag;
  */
 public interface TagService extends IService<Tag> {
 
+    List<Tag> pageTagList(Integer pageNumber, Integer pageSize, String name, String remark);
 }
 

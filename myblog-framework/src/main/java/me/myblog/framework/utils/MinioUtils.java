@@ -5,12 +5,12 @@ import cn.hutool.core.util.CharsetUtil;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.Optional;
 

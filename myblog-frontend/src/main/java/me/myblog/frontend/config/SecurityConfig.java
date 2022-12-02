@@ -52,12 +52,17 @@ public class SecurityConfig {
                 // 不通过session获取SecurityContext
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
+                //.authorizeRequests()
+                .authorizeHttpRequests()
                 // 对于登陆接口允许匿名访问
-                .antMatchers("/user/login").anonymous()
+                /*.antMatchers("/user/login").anonymous()
                 .antMatchers("/user/logout").authenticated()
                 .antMatchers("/user/userDetails").authenticated()
-                .antMatchers("/user/userPhoto").authenticated()
+                .antMatchers("/user/userPhoto").authenticated()*/
+                .requestMatchers("/user/login").anonymous()
+                .requestMatchers("/user/logout").authenticated()
+                .requestMatchers("/user/userDetails").authenticated()
+                .requestMatchers("/user/userPhoto").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问,不通过SpringSecurity的认证,但是走自己写的filter
                 .anyRequest().permitAll();
         // 配置异常处理器
