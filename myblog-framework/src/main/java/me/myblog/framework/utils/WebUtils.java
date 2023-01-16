@@ -36,4 +36,12 @@ public class WebUtils {
         String urlFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         response.setHeader("Content-disposition", "attachment; filename=" + urlFilename);
     }
+
+    public static void setDownLoadHeader(String filename, HttpServletResponse response) {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+        String urlFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8)
+                .replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment; filename=" + urlFilename);
+    }
 }

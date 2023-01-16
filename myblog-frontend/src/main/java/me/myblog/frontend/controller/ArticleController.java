@@ -64,7 +64,7 @@ public class ArticleController {
     @PutMapping("/viewCount/{id}")
     public Response<Object> putViewCount(@PathVariable("id") Long id) {
         articleService.putViewCount(id);
-        return Response.ok(null);
+        return Response.ok();
     }
 
 }

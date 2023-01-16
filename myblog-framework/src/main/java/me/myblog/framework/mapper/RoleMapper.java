@@ -2,6 +2,7 @@ package me.myblog.framework.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.myblog.framework.domain.entity.Role;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -11,8 +12,11 @@ import java.util.List;
  * @author makejava
  * @since 2022-10-29 18:26:30
  */
+@Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
     List<String> selectRoleKeyByUserId(Long userId);
+
+    List<Long> selectRoleIdsByUserId(Long userId);
 }
 

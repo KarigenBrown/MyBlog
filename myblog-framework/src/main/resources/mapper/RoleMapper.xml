@@ -4,9 +4,17 @@
     <select resultType="java.lang.String" id="selectRoleKeyByUserId">
         select role.role_key
         from user_role
-                 left join role on user_role.role_id = role.id
-        where role.delete_flag = 0
+                 left join role
+                     on user_role.role_id = role.id
+        where user_role.user_id = #{userId}
           and role.status = 0
-          and user_role.user_id = #{userId}
+          and role.delete_flag = 0
+    </select>
+    <select id="selectRoleIdsByUserId" resultType="java.lang.Long">
+        select role.id
+        from role
+                 left join user_role
+                           on user_role.role_id = role.id
+        where user_role.user_id = #{userId}
     </select>
 </mapper>

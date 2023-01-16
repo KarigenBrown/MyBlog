@@ -54,6 +54,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return buildMenuTree(menus, SystemConstants.MENU_TREE_ROOT);
     }
 
+    @Override
+    public List<Long> selectMenuListByRoleId(Long roleId) {
+        return baseMapper.selectMenuListByRoleId(roleId);
+    }
+
     private List<Menu> buildMenuTree(List<Menu> menus, Long parentId) {
         return menus.stream()
                 .filter(menu -> parentId.equals(menu.getParentId()))

@@ -27,6 +27,10 @@ public class Response<T> implements Serializable {
                 .setData(data);
     }
 
+    public static Response<Object> ok() {
+        return Response.ok(null);
+    }
+
     public static <T> Response<T> error(int code, String message) {
         return new Response<T>()
                 .setCode(code)

@@ -3,15 +3,25 @@ package me.myblog.framework.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.myblog.framework.config.MinioConfig;
 import me.myblog.framework.constants.SystemConstants;
+import me.myblog.framework.domain.entity.ArticleTag;
 import me.myblog.framework.domain.entity.Category;
+import me.myblog.framework.enums.HttpCodeEnum;
+import me.myblog.framework.exception.SystemException;
 import me.myblog.framework.mapper.ArticleMapper;
 import me.myblog.framework.domain.entity.Article;
 import me.myblog.framework.mapper.CategoryMapper;
 import me.myblog.framework.service.ArticleService;
+import me.myblog.framework.service.ArticleTagService;
+import me.myblog.framework.service.FileService;
+import me.myblog.framework.utils.MinioUtils;
+import me.myblog.framework.utils.PathUtils;
 import me.myblog.framework.utils.RedisCacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +40,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private RedisCacheUtils redisCacheUtils;
+
+    @Autowired
+    private ArticleTagService articleTagService;
+
+    @Autowired
+    private FileService fileService;
 
     @Override
     public List<Article> hotArticleList() {
@@ -116,6 +132,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public void putViewCount(Long id) {
         // 更新redis中对应id的浏览量
         redisCacheUtils.incrementCacheMapValue(SystemConstants.VIEW_COUNT_KEY, id.toString(), 1);
+    }
+
+    @Override
+    @Transactional
+    public void postArticle(Article article, List<Long> tagIds) {
+        this.save(article);
+
+        List<ArticleTag> articleTags = tagIds.stream()
+                .map(tagId -> new ArticleTag(article.getId(), tagId))
+                .toList();
+        articleTagService.saveBatch(articleTags);
     }
 }
 

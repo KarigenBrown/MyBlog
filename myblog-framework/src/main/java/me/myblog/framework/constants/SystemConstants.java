@@ -41,4 +41,6 @@ public class SystemConstants {
     public static final Long ADMINISTRATOR = 1L;
 
     public static final Long MENU_TREE_ROOT = 0L;
+
+    public static final String NORMAL_ROLE_STATUS = "0";
 }

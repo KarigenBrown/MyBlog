@@ -2,11 +2,9 @@ package me.myblog.framework.domain.entity;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,16 +48,24 @@ public class User implements UserDetails {
     //头像
     private String avatar;
     //创建人的用户id
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
     //创建时间
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //更新人
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
     //更新时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     //删除标志(0代表未删除,1代表已删除)
     @TableLogic
     private Integer deleteFlag;
+    @TableField(exist = false)
+    private List<String> permissions;
+    @TableField(exist = false)
+    private List<Long> roleIds;
 
     public String getUserName() {
         return userName;

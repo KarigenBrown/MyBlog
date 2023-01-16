@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Karigen B
@@ -112,7 +113,7 @@ public class MinioUtils {
      * @return
      */
     @SneakyThrows(Exception.class)
-    public String getUploadObjectUrl(String bucketName, String fileName, Integer expires) {
+    public String getObjectUrl(String bucketName, String fileName, Integer expires) {
         return minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
                         .method(Method.GET)
@@ -124,15 +125,15 @@ public class MinioUtils {
     }
 
     @SneakyThrows(Exception.class)
-    public String upload(String bucketName, String fileName, MultipartFile file) {
+    public String uploadObject(String bucketName, String fileName, MultipartFile file) {
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(fileName)
-                .stream(file.getInputStream(), file.getSize(), -1)
                 .contentType(file.getContentType())
+                .stream(file.getInputStream(), file.getSize(), -1)
                 .build();
         minioClient.putObject(putObjectArgs);
-        return getUploadObjectUrl(bucketName, fileName, 7 * 24 * 60 * 60);
+        return getObjectUrl(bucketName, fileName, (int) TimeUnit.DAYS.toSeconds(7));
     }
 
     public void download(String bucketName, String fileName, HttpServletResponse httpResponse) {
@@ -140,7 +141,7 @@ public class MinioUtils {
                 .bucket(bucketName)
                 .object(fileName)
                 .build();
-        try (GetObjectResponse response = minioClient.getObject(getObjectArgs)) {
+        try (GetObjectResponse object = minioClient.getObject(getObjectArgs)) {
             StatObjectResponse stat = minioClient.statObject(
                     StatObjectArgs.builder()
                             .bucket(bucketName)
@@ -150,7 +151,7 @@ public class MinioUtils {
             httpResponse.setCharacterEncoding(CharsetUtil.UTF_8);
             httpResponse.setContentType(stat.contentType());
             httpResponse.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
-            IoUtil.copy(response, httpResponse.getOutputStream());
+            IoUtil.copy(object, httpResponse.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }

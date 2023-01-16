@@ -8,10 +8,13 @@ import me.myblog.framework.domain.vo.LoginUserVo;
 import me.myblog.framework.domain.vo.UserDetailsVo;
 import me.myblog.framework.enums.HttpCodeEnum;
 import me.myblog.framework.exception.SystemException;
+import me.myblog.framework.mapper.MenuMapper;
 import me.myblog.framework.mapper.UserMapper;
 import me.myblog.framework.domain.entity.User;
 import me.myblog.framework.service.UserService;
 import me.myblog.framework.utils.*;
+import org.eclipse.collections.api.tuple.Pair;
+import org.eclipse.collections.impl.tuple.Tuples;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,17 +50,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisCacheUtils redisCacheUtils;
 
     @Autowired
-    private MinioUtils minioUtils;
-
-    @Autowired
-    private MinioConfig minioConfig;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MenuMapper menuMapper;
 
 
     @Override
-    public Map<String, Object> userLogin(User user) {
+    public Pair<String, User> userLogin(User user) {
         /*UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -73,10 +74,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 把用户信息存入redis
         redisCacheUtils.setCacheObject(SystemConstants.USER_LOGIN_KEY_PREFIX + userId, loginUser);
 
-        return Map.of(
+        /*return Map.of(
                 "jwt", jwt,
                 "loginUser", loginUser
-        );
+        );*/
+        return Tuples.pair(jwt, loginUser);
     }
 
     private User getAuthenticatedUser(User user) {
@@ -113,46 +115,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void putUserDetails(User user) {
         this.updateById(user);
-    }
-
-    @Override
-    public String userPhoto(MultipartFile userPhoto) {
-        // 判断文件类型或者文件大小
-        // 获取原始文件名
-        String originalFilename = userPhoto.getOriginalFilename();
-        // 对原始文件名进行判断
-        if (originalFilename == null || !originalFilename.matches("^.+\\.(png|jpg|jpeg)$")) {
-            throw new SystemException(HttpCodeEnum.FILE_TYPE_ERROR);
-        }
-
-        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        // 1.
-        /*String[] split = Objects.requireNonNull(originalFilename).split("\\.");
-        String extendName = split[split.length - 1];
-        String fileName = dateFormat.format(new Date()) + "/" + IdUtil.fastSimpleUUID() + "." + extendName;*/
-
-        // 2.
-        /*int index = originalFilename.lastIndexOf(".");
-        String fileName = dateFormat.format(new Date()) + "/" + IdUtil.fastSimpleUUID() + originalFilename.substring(index);*/
-
-        // 3.
-        /*StringBuilder stringBuilder = new StringBuilder();
-        int index = originalFilename.lastIndexOf(".");
-        String fileName = stringBuilder.append(dateFormat.format(new Date()))
-                .append("/")
-                .append(IdUtil.fastSimpleUUID())
-                .append(originalFilename.lastIndexOf(index))
-                .toString();*/
-
-        // 4.
-        String fileName = PathUtils.dateUuidPath(originalFilename);
-
-        // 如果判断通过上传文件到OSS
-        return minioUtils.upload(
-                minioConfig.getBucketName(),
-                fileName,
-                userPhoto
-        );
     }
 
     @Override
@@ -241,6 +203,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
         // 返回用户信息
+        if (user.getType().equals(SystemConstants.ADMINISTRATOR.toString())) {
+            List<String> permissions = menuMapper.selectPermissionsByUserId(user.getId());
+            user.setPermissions(permissions);
+        }
         return user;
     }
 }

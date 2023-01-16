@@ -1,6 +1,10 @@
 package me.myblog.framework.domain.entity;
 
 import java.util.Date;
+import java.util.List;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,14 +34,20 @@ public class Role {
     //删除标志(0代表存在,1代表删除)
     private String deleteFlag;
     //创建者
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
     //创建时间
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //更新者
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
     //更新时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     //备注
     private String remark;
+    @TableField(exist = false)
+    private List<Long> menuIds;
 
 }

@@ -1,4 +1,4 @@
-package me.myblog.framework.handler.mybatisplus;
+package me.myblog.framework.handler.metadata;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import me.myblog.framework.utils.SecurityUtils;
@@ -12,7 +12,7 @@ import java.util.Date;
  * @create 2022-11-06 17:56
  */
 @Component
-public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
+public class MetaDataObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Long userId = null;
@@ -30,7 +30,7 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updateBy", new Date(), metaObject)
-                .setFieldValByName(" ", SecurityUtils.getUserId(), metaObject);
+        this.setFieldValByName("updateTime", new Date(), metaObject)
+                .setFieldValByName("updateBy", SecurityUtils.getUserId(), metaObject);
     }
 }

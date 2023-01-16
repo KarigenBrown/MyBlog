@@ -2,6 +2,7 @@ package me.myblog.framework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.myblog.framework.domain.entity.Article;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,5 +21,7 @@ public interface ArticleService extends IService<Article> {
     Article articleDetail(Long id);
 
     void putViewCount(Long id);
+
+    void postArticle(Article article,List<Long> tagIds);
 }
 

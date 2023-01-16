@@ -7,14 +7,13 @@ import lombok.experimental.Accessors;
 
 /**
  * @author Karigen B
- * @create 2022-10-29 22:31
+ * @create 2023-01-07 15:16
  */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryVo {
+public class TagVo {
     private Long id;
     private String name;
-    private String description;
 }

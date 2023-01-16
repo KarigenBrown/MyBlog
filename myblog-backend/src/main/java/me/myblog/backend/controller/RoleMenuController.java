@@ -1,5 +1,6 @@
 package me.myblog.backend.controller;
 
+import cn.hutool.core.lang.Tuple;
 import me.myblog.framework.domain.Response;
 import me.myblog.framework.domain.entity.User;
 import me.myblog.framework.domain.vo.UserDetailsVo;
@@ -39,6 +40,8 @@ public class RoleMenuController {
     public Response<UserRightsVo> getUserRights() {
         // 获取当前登陆的用户
         User loginUser = SecurityUtils.getLoginUser();
+        // TODO 封装进service
+        // Tuple
         // 根据用户id查询权限信息
         List<String> permissions = menuService.selectPermissionsByUserId(loginUser.getId());
         // 根据用户id查询角色信息
